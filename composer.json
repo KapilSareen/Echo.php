@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-4": {
+            "MyApp\\": "server"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "^0.4"
+    }
+}
+

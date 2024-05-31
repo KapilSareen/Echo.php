@@ -1,0 +1,77 @@
+.card{
+transform: 
+scale(1)  translate(250%,6%);
+width: 50vw;
+border: 0px;
+border-radius: 10px ;
+
+}
+.profile{
+    border-radius: 15px;
+    margin: auto;
+    padding-top: 20px;
+}
+
+body{
+    background-color: #454444 ;
+}
+.card {
+    background-color: rgba(33, 37, 41, 0.5);;
+}
+.list-group-item{
+        color: white;
+        background-color: rgba(33, 37, 41, 0.1);;
+    
+}
+
+.upload-form {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    padding: 10px 20px 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.upload-form h2 {
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.upload-form input[type="file"] {
+    display: none;
+}
+
+.flex{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    
+}
+.upload-form label {
+    display: inline-block;
+    padding: 3px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 0px;
+}
+
+.upload-form input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 3px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.upload-form input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.upload-form label:hover {
+    background-color: #0056b3;
+}
