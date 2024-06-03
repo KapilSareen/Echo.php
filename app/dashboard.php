@@ -114,6 +114,7 @@ if ((isset($_POST["username"]) && isset($_POST["password"])) || isset($_SESSION[
             $email=$row['email'];
             $bio=$row['bio'];
             $profile=$row['profile'];
+            $id= $row['id'];
         } else {
             echo '<pre>   Incorrect username or password! </pre>';
             exit();
@@ -149,6 +150,11 @@ if ((isset($_POST["username"]) && isset($_POST["password"])) || isset($_SESSION[
   }
 </script>
   <a href="./chat.php">Chat with @lucifer</a>
+  <form action="chat.php" method="post">
+        <label for="recipient">Recipient:</label>
+        <input type="text" id="recipient" name="recipient" required>
+        <button type="submit">Start Chat</button>
+    </form>
 <div class="card" style="width: 30rem; height:40rem;">
 
     <img class="profile" style="width:22rem; height:19rem;" src="./uploads/<?php echo isset($profile) ? $profile : 'default.jpeg'; ?>" class="card-img-top" alt="...">

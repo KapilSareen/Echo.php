@@ -1,19 +1,43 @@
 <?php
-
 namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use SQLite3;
+
+// try {
+//     $db = new SQLite3('./app/data.db');
+
+// echo"Successfully connected to DB";
+
+// } catch (error) {
+//     echo "Error connecting to DB...";
+//     exit();
+// }
+      
 
 class Chat implements MessageComponentInterface {
     protected $clients;
+    protected $db;
+    
 
+    protected function initializeDatabase() {
+        try {
+            $this->db = new SQLite3('./app/data.db');
+            echo "Successfully connected to DB\n";
+        } catch (\Exception $e) {
+            echo "Error connecting to DB: " . $e->getMessage() . "\n";
+            exit();
+        }
+    }
     public function __construct() {
         $this->clients = new \SplObjectStorage;
+        $this->initializeDatabase();
     }
 
     public function onOpen(ConnectionInterface $conn) {
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
+
 
         echo "New connection! ({$conn->resourceId})\n";
     }
@@ -23,7 +47,7 @@ class Chat implements MessageComponentInterface {
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
 
-        foreach ($this->clients as $client) {
+    foreach ($this->clients as $client) {
             if ($from !== $client) {
                 // The sender is not the receiver, send to each client connected
                 $client->send($msg);
