@@ -42,9 +42,17 @@ class Chat implements MessageComponentInterface {
                 return;
             }
             else{
+                //      Users table
+                // chatId INTEGER PRIMARY KEY,
+                // user1Id INTEGER NOT NULL,
+                // user2Id INTEGER NOT NULL,
+                // FOREIGN KEY (user1Id) REFERENCES users(userId),
+                // FOREIGN KEY (user2Id) REFERENCES users(userId),
+                // CONSTRAINT unique_users UNIQUE (user1Id, user2Id)
 
-                $sql = "INSERT INTO chats (USERNAME, PASSWORD, EMAIL, BIO) VALUES ('$username', '$password', '$email', '$bio')";
-                $db->exec($sql)
+// $sql = "INSERT INTO USERS (USERNAME, PASSWORD, EMAIL, BIO) VALUES ('$username', '$password', '$email', '$bio')";
+// if ($db->exec($sql) 
+
             }
         }
 
