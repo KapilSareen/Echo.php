@@ -148,9 +148,20 @@ if ((isset($_POST["username"]) && isset($_POST["password"])) || isset($_SESSION[
       var fileName = input.files.length > 0 ? input.files[0].name : 'No file chosen';
       fileNameDisplay.textContent = fileName;
   }
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
+var userExistParam = getUrlParameter('userexist');
+if (userExistParam === 'false') {
+    alert('User does not exist.');
+}
+
 </script>
-  <a href="./chat.php">Chat with @lucifer</a>
-  <form action="chat.php" method="post">
+
+        <form action="chat.php" method="post">
         <label for="recipient">Recipient:</label>
         <input type="text" id="recipient" name="recipient" required>
         <button type="submit">Start Chat</button>
