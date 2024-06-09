@@ -85,25 +85,28 @@ $username= $row['username'];
                <br>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                
-         
+              <?php 
+              try{
 
-
-                <li class="nav-item">
-                <a class="postLink nav-link" href="#" data-recipient="lucifer">Lucifer</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li>
-                      <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
+                $s="SELECT * FROM CHATS WHERE user1Id='$username' or user2Id='$username';";
+                $res = $db->query($s);
+               while ($r = $res->fetchArray(SQLITE3_ASSOC)) {
+                if ($r['user1Id']!=$username) {
+                  $otherperson=$r['user1Id'];
+                }
+                else{
+                  $otherperson=$r['user2Id'];
+                }
+                echo "<li class='nav-item'>
+                <a class='postLink nav-link' href='#' data-recipient='".$otherperson."'>".$otherperson."</a>
+                </li>";
+               }
+                
+              }
+              catch (error) { 
+                echo "Error aa gya";
+              }
+              ?>    
               </ul>
               </div>
           </div>
@@ -114,7 +117,10 @@ $username= $row['username'];
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
-        document.querySelector('.postLink').addEventListener('click', function(event) {
+        let links=document.querySelectorAll('.postLink')
+        links.forEach(element => {
+
+        element.addEventListener('click', function(event) {
             event.preventDefault(); 
             const key1 = this.getAttribute('data-recipient');
 
@@ -130,6 +136,7 @@ $username= $row['username'];
             document.body.appendChild(form);
             form.submit();
         });
+      });
        let pfp=document.querySelector(".click")
       pfp.addEventListener("click",()=>{
         window.location="/dashboard.php"
