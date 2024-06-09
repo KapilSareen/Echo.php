@@ -12,10 +12,16 @@ border-radius: 10px ;
     /* justify-content: center; */
     align-items: center;
     gap: 100px;
+    border:1px solid #959595;
+    height: 50vh;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 23px 50px;
 }
 .card-container{
     padding: 35px;
     display: flex;
+    align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 35px;

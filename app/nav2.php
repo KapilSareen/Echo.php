@@ -74,16 +74,22 @@ $username= $row['username'];
           </button>
           <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Dark offcanvas</h5>
+              <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Chats</h5>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
+            <form class="d-flex mt-3" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success" type="submit">Search</button>
+              </form>
+               <br>
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+               
+         
+
+
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
+                <a class="postLink nav-link" href="#" data-recipient="lucifer">Lucifer</a>
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -99,11 +105,7 @@ $username= $row['username'];
                   </ul>
                 </li>
               </ul>
-              <form class="d-flex mt-3" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-success" type="submit">Search</button>
-              </form>
-            </div>
+              </div>
           </div>
         </div>
       </nav>
@@ -112,7 +114,23 @@ $username= $row['username'];
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
-      let pfp=document.querySelector(".click")
+        document.querySelector('.postLink').addEventListener('click', function(event) {
+            event.preventDefault(); 
+            const key1 = this.getAttribute('data-recipient');
+
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/chat.php';
+            form.style.display = 'none';
+            const recipientField = document.createElement('input');
+            recipientField.type = 'hidden';
+            recipientField.name = 'recipient';
+            recipientField.value = key1;
+            form.appendChild(recipientField);
+            document.body.appendChild(form);
+            form.submit();
+        });
+       let pfp=document.querySelector(".click")
       pfp.addEventListener("click",()=>{
         window.location="/dashboard.php"
       })

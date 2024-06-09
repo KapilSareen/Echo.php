@@ -156,17 +156,29 @@ if (userExistParam === 'false') {
 
 <div class="card-container">
   <div class="chat">
-     <h2>
-      Start Chatting
+     <h2 style="color:white" >
+      Let's Chat
      </h2>
     <form action="chat.php" method="post">
+    <div style="padding-bottom:5px;color:#b0b0b0; font-size:22px">
+      Start a new chat!
+    </div>  
+      
       <div class="input-group mb-3">
     <input type="text" d="recipient" name="recipient" required class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
     <div class="input-group-append">
       <button style="background-color: green;" class="btn btn-outline-secondary" type="submit">Start chat</button>
     </div>
   </div>
+    <br>
+  <div style="padding-bottom:5px;color:#b0b0b0; font-size:22px">
+      <pre>
+                or</pre>
+      Resume your old chat from the chat menu
+    </div>  
     </form>
+
+
 
   </div>
 <div class="card" style="width: 30rem; height:40rem;">
