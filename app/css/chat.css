@@ -37,7 +37,11 @@ body {
 }
 
 .card-header:first-child {
-    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+    margin-right: 50px;
+    margin-top: 11px;
+    /* border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0; */
+    background-color: #3d3436;
+    border-radius: 21px;
 }
 
 
@@ -103,12 +107,12 @@ h4.card-title {
 
 .ps-container {
     position: relative;
+    padding-bottom: 20px;
 }
 
 .ps-container {
     -ms-touch-action: auto;
     touch-action: auto;
-    overflow: hidden!important;
     -ms-overflow-style: none;
 }
 

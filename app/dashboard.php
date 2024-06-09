@@ -28,9 +28,6 @@ if(isset($_FILES["fileToUpload"])){
     exit();
     }
 
-
-
-
     if ($uploadOk == 0) {
       echo "<pre>Sorry, your file was not uploaded <br></pre>";
       exit();
@@ -55,8 +52,6 @@ if(isset($_FILES["fileToUpload"])){
         echo "Sorry, there was an error uploading your file.<br>";
       }
     }
-
-
   exit();
 }
 
@@ -74,8 +69,6 @@ if ((isset($_POST["username"]) && isset($_POST["password"])) || isset($_SESSION[
     $password = htmlspecialchars($_POST["password"]);
   }
 
-    
-    
     try {
         $db = new SQLite3('data.db');
 
@@ -161,11 +154,21 @@ if (userExistParam === 'false') {
 
 </script>
 
-        <form action="chat.php" method="post">
-        <label for="recipient">Recipient:</label>
-        <input type="text" id="recipient" name="recipient" required>
-        <button type="submit">Start Chat</button>
+<div class="card-container">
+  <div class="chat">
+     <h2>
+      Start Chatting
+     </h2>
+    <form action="chat.php" method="post">
+      <div class="input-group mb-3">
+    <input type="text" d="recipient" name="recipient" required class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <div class="input-group-append">
+      <button style="background-color: green;" class="btn btn-outline-secondary" type="submit">Start chat</button>
+    </div>
+  </div>
     </form>
+
+  </div>
 <div class="card" style="width: 30rem; height:40rem;">
 
     <img class="profile" style="width:22rem; height:19rem;" src="./uploads/<?php echo isset($profile) ? $profile : 'default.jpeg'; ?>" class="card-img-top" alt="...">
@@ -193,6 +196,7 @@ if (userExistParam === 'false') {
         </form>
     </div>
   </div>
+</div>
 </div>
 </body>
 </html>

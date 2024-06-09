@@ -1,10 +1,24 @@
 .card{
-transform: 
-scale(1)  translate(250%,6%);
+/* transform: 
+scale(1)  translate(250%,6%); */
 width: 50vw;
 border: 0px;
 border-radius: 10px ;
 
+}
+.chat{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    gap: 100px;
+}
+.card-container{
+    padding: 35px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 35px;
 }
 .profile{
     border-radius: 15px;
@@ -32,6 +46,11 @@ body{
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+}
+
+.btn{
+    /* padding: 10px; */
+    color: white;
 }
 
 .upload-form h2 {

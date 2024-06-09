@@ -9,24 +9,50 @@ if (!isset($_SESSION["username"])) {
     header("Location: index.php");
 }
 if (isset($_POST["recipient"])) {
-$_SESSION["recipient"]=$_POST["recipient"];
+    $_SESSION["recipient"]=$_POST["recipient"];
 }
 $recipient= $_SESSION["recipient"];
 
+
+
+$username= $_SESSION["username"];
 try {
-  $db = new SQLite3('data.db');
-  $query = "SELECT * FROM USERS WHERE username='$recipient';";
-  $result = $db->query($query);
-  $row = $result->fetchArray();
-  if ($row) {
-  $recipientPfp= $row["profile"];
-} else {
+    $db = new SQLite3('data.db');
+ 
+    // $db->exec('PRAGMA foreign_keys = ON;');                         -> To-do: find out why this isn't working out (this is should enable 'ON DELETE CASCADE')
+    $query = "SELECT * FROM USERS WHERE username='$recipient';";
+    $result = $db->query($query);
+    $row = $result->fetchArray();
+    if ($row) {
+        $recipientPfp= $row["profile"];
+    } else {
   header("Location: dashboard.php?userexist=false");
   
   }
   } catch (error) {
       exit();
   }
+
+  if (isset($_POST["Delete"])) {
+
+    try {
+        
+        $query = "SELECT messageData from chatMessages where chatId=(SELECT chatId FROM chats WHERE (user2Id='$recipient' and user1Id='$username') or (user1Id='$recipient' and user2Id='$username'))";
+        $result = $db->query($query);
+        $row = $result->fetchArray();
+        if ($row) {
+            $messageIds=explode(",",$row["messageData"]);
+            for ($i=0; $i < count($messageIds); $i++) { 
+                $q2="DELETE FROM messages where messageId=$messageIds[$i]";
+                $db->query($q2);
+            }
+        }
+        $q2 = "DELETE from chatMessages where chatId=(SELECT chatId FROM chats WHERE (user2Id='$recipient' and user1Id='$username') or (user1Id='$recipient' and user2Id='$username'))";
+        $db->exec($q2);
+        $q1 = "DELETE  FROM chats WHERE (user2Id='$recipient' and user1Id='$username') or (user1Id='$recipient' and user2Id='$username');";
+        $db->exec($q1);
+    }catch (error) {}
+}
 
 include("nav2.php");
 echo "<br><br><br>";
@@ -44,16 +70,50 @@ echo "<br><br><br>";
 
 <div class="card card-bordered">
     <div class="card-header">
-        <h2 class="card-title"><strong>Chat with <?php echo"$recipient"?></strong></h2>
-        <!-- <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a> -->
+        <h4 class="card-title"><strong>Chat with <?php echo"$recipient"?></strong></h4>
+         <form id="deleteChatForm" action="chat.php" method="post">
+            <button style="font-size:15px" class="btn btn-xs btn-secondary dark" type="submit" name="Delete" value="1" >Delete Chat</button>
+         </form>
     </div>
     <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: auto !important; height:680px;">
-        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
-            <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-        </div>
-        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;">
-            <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div>
-        </div>
+        <?php
+        try {
+            $query = "SELECT messageData from chatMessages where chatId=(SELECT chatId FROM chats WHERE (user2Id='$recipient' and user1Id='$username') or (user1Id='$recipient' and user2Id='$username'))";
+            $result = $db->query($query);
+            $row = $result->fetchArray();
+            if ($row) {
+            $messageIds=explode(",",$row["messageData"]);
+            for ($i=0; $i < count($messageIds); $i++) { 
+                  $query="SELECT * from messages where messageId=$messageIds[$i]";
+                  $result = $db->query($query);
+                  $row = $result->fetchArray();
+                //   echo"    ".$row['timestamp'].$row['content'].$row['sentBy']."<br>";
+        
+                  if($row['sentBy']==$username){
+                    echo "<div class='media media-chat media-chat-reverse'>
+                    <div class='media-body'>
+                        <p>" . $row['content'] . "</p>
+                        <p class='meta'><time datetime='2024'>" . $row['timestamp'] . "</time></p>
+                    </div>
+                </div>";
+                  }
+                  else{
+                 echo '<div class="media media-chat">
+                 <img class="avatar" src="uploads/'.$recipientPfp.'" alt="...">
+                 <div class="media-body">
+                     <p>'.$row['content'].'</p>
+                     <p class="meta"><time datetime="2024">'.$row['timestamp'].'</time></p>
+                 </div>
+             </div>';
+                  }
+                
+            }
+        } 
+            } catch (error) {
+            echo "Error";
+            }
+        ?>
+
     </div>
     <div class="publisher bt-1 border-light">
         <img class="avatar avatar-xs" src=<?php echo "uploads/$profile"; ?> alt="...">
@@ -100,14 +160,15 @@ conn.onmessage = function(e) {
     scrollToBottom(); 
 };
 
+function deletechat(){
+    document.getElementById("deleteChatForm").submit();
+}
+
 function submitForm() {
     const message = document.querySelector(".publisher-input").value;
     var date = new Date();
     var currentTime = `${(date.getHours() < 10 ? '0' : '') + date.getHours()}:${(date.getMinutes() < 10 ? '0' : '') + date.getMinutes()}`;
      
-    
-
-    // const room = "A"; // Assuming room is defined on the server-side and injected into the script
     
     if (message) {
        var messageData = JSON.stringify({ room: roomId, message: message, time: currentTime, sentBy: "<?php echo $_SESSION['username']; ?>", recipient: "<?php echo $recipient; ?>" });
@@ -121,7 +182,7 @@ function submitForm() {
                 </div>
             </div>`;
         document.querySelector(".publisher-input").value = '';
-        scrollToBottom(); // Ensure the chat scrolls to the bottom when a new message is sent
+        scrollToBottom(); 
     }
 }
 
@@ -129,7 +190,7 @@ const messageInput = document.querySelector('.publisher-input');
 document.body.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         submitForm();
-        event.preventDefault(); // Prevent default form submission behavior
+        event.preventDefault(); 
     }
 });
 
