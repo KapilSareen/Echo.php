@@ -12,7 +12,7 @@ On the dashboard page you are given option to start a new chat or to load an old
 
 ![](img/image2.png)
 
-In this chat page, you can chat with the other person, delete the chat or to open an another chat.
+In this chat page, you can chat with the other person, delete the chat or  open another chat.
 
 ### Intresting problem
 
@@ -34,4 +34,4 @@ Open another terminal window and start the app server using these commands
 cd app
 php -S locahost:8000
 ```
-This will start the app server on your locahost port 8000. Now access the app from your browser using this url:  `http;//locahost:8000` 
+This will start the app server on your locahost port 8000. Now access the app from your browser using this url:  `http://locahost:8000` 
