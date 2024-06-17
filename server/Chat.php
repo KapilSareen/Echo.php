@@ -53,14 +53,6 @@ class Chat implements MessageComponentInterface {
                 $decodedRoom = base64_decode($room);
                 $users = explode("~", $decodedRoom);
 
-                //      table chats
-                // chatId INTEGER PRIMARY KEY,
-                // user1Id INTEGER NOT NULL,
-                // user2Id INTEGER NOT NULL,
-                // FOREIGN KEY (user1Id) REFERENCES users(userId),
-                // FOREIGN KEY (user2Id) REFERENCES users(userId),
-                // CONSTRAINT unique_users UNIQUE (user1Id, user2Id)
-
         $query = "SELECT * FROM chats WHERE user1Id='$users[0]' and user2Id='$users[1]';";
         $result = $this->db->query($query);
         $row = $result->fetchArray();
@@ -69,13 +61,11 @@ class Chat implements MessageComponentInterface {
         if(!$row){
         if ($this->db->exec($sql) ){
         $this->chatId = $this->db->lastInsertRowID();
-        echo "Chat inserted with chatId $this->chatId !";
         
         }
 }
         else{
         $this->chatId=$row['chatId'];
-        echo "Chat already there with chatid $this->chatId";
         
 }             
             }
@@ -103,17 +93,7 @@ class Chat implements MessageComponentInterface {
                     $sentBy=$data['sentBy'];
                     $content=$data['message'];
                     $time=$data['time'];
-//                                TABLE messages 
-//     messageId INTEGER PRIMARY KEY,
-//     content TEXT NOT NULL,
-//     timestamp DATETIME NOT NULL
-//   , sentBy TEXT NOT NULL);
 
-//                                 TABLE chatMessages 
-//     chatId INTEGER,
-//     messageData TEXT NOT NULL,
-//     FOREIGN KEY (chatId) REFERENCES chats(chatId) ON DELETE CASCADE,
-//     PRIMARY KEY (chatId)
                 $sql = "INSERT INTO MESSAGES (content, timestamp, sentBy) VALUES ('$content', '$time', '$sentBy')";
               
                 if ($this->db->exec($sql) ){
@@ -131,7 +111,6 @@ class Chat implements MessageComponentInterface {
                     $sql = "INSERT INTO chatMessages (chatId, messageData) VALUES ('$this->chatId','$lastmessageId')";
                     if ($this->db->exec($sql) )
                 {
-                echo "Message added in chatMessages with message id $lastmessageId and chatId $this->chatId";
                 
                 }else{
                     echo"Message not added in chatMessages";
